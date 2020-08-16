@@ -1,8 +1,10 @@
 import {combineReducers} from 'redux';
-import signInUpReducer from './signInUpReducer';
+import userInputCollectReducer from './userInputCollectReducer';
+import {registerReducer, evaluateUserData, loginRequestReducer} from './signInUpReducers'
 
 const allReducers = combineReducers({
-  signInUpReducer
+  userInputCollectReducer,
+  loginRequestReducer
 })
 
 export default allReducers;

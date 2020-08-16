@@ -9,18 +9,6 @@ class App extends React.Component  {
 
   constructor(){
 		super();
-		this.state = {
-			name: '',
-      mail: '',
-      pass: ''
-		};
-
-    this.registerInfo = {
-      name: '',
-      email: '',
-      password: ''
-    };
-
 	}
 
   render()
@@ -28,8 +16,7 @@ class App extends React.Component  {
     return (
       <>
         <NavbarPage/>
-          <RegisterForm/>
-        <FooterPage/>
+        <RegisterForm/>
       </>
     );
   }

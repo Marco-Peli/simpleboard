@@ -1,11 +1,16 @@
 import React from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput } from 'mdbreact';
 import {onInputNameChange, onInputMailChange, onInputPassChange} from '../actions/textInputActions'
-import {useDispatch} from 'react-redux'
+import {sendLoginUserData} from '../actions/signInUp'
+import {useDispatch, useSelector} from 'react-redux'
 
-const RegisterForm = (props) => {
+const RegisterForm = () => {
 
   const dispatch = useDispatch();
+  const userData = {
+    email: useSelector(store => store.mail),
+    password: useSelector(store => store.pass)
+  };
 
   return (
   <MDBContainer className="block-example border border-dark mt-4">
@@ -21,7 +26,7 @@ const RegisterForm = (props) => {
             <MDBInput label="Your password" icon="lock" group type="password" validate onChange={(event) => dispatch(onInputPassChange(event))}/>
           </div>
           <div className="text-center">
-            <MDBBtn color="primary">Register</MDBBtn>
+            <MDBBtn color="primary" onClick={() => dispatch(sendLoginUserData(dispatch, userData))}>Register</MDBBtn>
           </div>
         </form>
       </MDBCol>
