@@ -10,7 +10,9 @@ class App extends React.Component  {
   constructor(){
 		super();
 		this.state = {
-			name: "",
+			name: '',
+      mail: '',
+      pass: ''
 		};
 
     this.registerInfo = {
@@ -21,30 +23,12 @@ class App extends React.Component  {
 
 	}
 
-  onNameChange = (event) =>
-	{
-		this.setState({name: event.target.value});
-    console.log(event.target.value);
-	}
-
-  onEmailChange = (event) =>
-	{
-		this.setState({email: event.target.value});
-    console.log(event.target.value);
-	}
-
-  onPswChange = (event) =>
-	{
-		this.setState({password: event.target.value});
-    console.log(event.target.value);
-	}
-
   render()
 	{
     return (
       <>
         <NavbarPage/>
-        <RegisterForm onNameChangeFun={this.onNameChange} onPswChangeFun={this.onPswChange} onMailChangeFun={this.onEmailChange}/>
+          <RegisterForm/>
         <FooterPage/>
       </>
     );
