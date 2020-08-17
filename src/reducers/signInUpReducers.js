@@ -46,6 +46,7 @@ export const loginRequestReducer = (state=initialLoginState, action) => {
       break;
     case configObj.ON_USER_LOGIN_SUCCESS:
       Object.assign({}, state, {loginPending: false, loginResponse: action.data});
+      console.log('SERV_RESP: ', action.data);
       break;
     case configObj.ON_USER_LOGIN_FAIL:
       Object.assign({}, state, {loginPending: false, loginResponse: action.data});
