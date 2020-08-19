@@ -1,19 +1,22 @@
 import React from "react";
+import {useDispatch, useSelector} from 'react-redux'
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput } from 'mdbreact';
 import {onInputNameChange, onInputMailChange, onInputPassChange} from '../actions/textInputActions'
 import {sendLoginUserData} from '../actions/signInUp'
-import {useDispatch, useSelector} from 'react-redux'
 
-const RegisterForm = () => {
+const RegisterForm = (store) => {
 
   const dispatch = useDispatch();
-  const userData = {
-    email: useSelector(store => store.mail),
-    password: useSelector(store => store.pass)
+  let userData = {
+    email: '',
+    password: ''
   };
 
+  userData.email = useSelector(store => store.mail);
+  userData.password = useSelector(store => store.pass);
+
   return (
-  <MDBContainer className="block-example border border-dark mt-4">
+  <MDBContainer>
     <MDBRow center >
       <MDBCol md="4">
         <form>

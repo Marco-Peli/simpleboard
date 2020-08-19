@@ -18,26 +18,6 @@ export const evaluateUserData = (state={}, action) => {
   return state;
 }
 
-export const registerRequestReducer = (state={}, action) => {
-  switch(action.type)
-  {
-    case configObj.ON_USER_REGISTER_PENDING:
-      state.login.isPending = true;
-      break;
-    case configObj.ON_USER_REGISTER_SUCCESS:
-      state.login.isPending = false;
-      state.login.payload = action.data;
-      break;
-    case configObj.ON_USER_REGISTER_FAIL:
-      state.login.isPending = false;
-      state.login.payload = action.data;
-      break;
-    default:
-      break;
-  }
-  return state;
-}
-
 export const loginRequestReducer = (state=initialLoginState, action) => {
   switch(action.type)
   {

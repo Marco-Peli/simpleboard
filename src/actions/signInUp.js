@@ -37,7 +37,7 @@ export const onUserLoginFail = (data) =>
   }
 }
 
-export const sendLoginUserData = (loginData) =>
+export const sendLoginUserData = (dispatch, loginData) =>
 {
   console.log('LOGIN_DATA: ', loginData);
   return function(dispatch)

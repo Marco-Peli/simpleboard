@@ -11,6 +11,7 @@ import allReducers from './reducers/allReducers';
 import {Provider} from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension';
+import logger from 'redux-logger'
 
 const composeEnhancers = composeWithDevTools({
 
@@ -18,7 +19,7 @@ const composeEnhancers = composeWithDevTools({
 
 let store = createStore(
   allReducers,
-  composeEnhancers(applyMiddleware(thunkMiddleware))
+  composeEnhancers(applyMiddleware(thunkMiddleware, logger))
 );
 
 ReactDOM.render(
