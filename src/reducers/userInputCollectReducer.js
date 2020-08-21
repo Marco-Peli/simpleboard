@@ -8,27 +8,17 @@ const initialInputState= {
 
 const userInputCollectReducer = (state=initialInputState, action) => {
 
-  let newState = {};
   switch(action.type)
   {
     case configObj.ON_NAME_CHANGE_TYPE:
-      Object.assign({},state, {name: action.payload});
-      break;
-
+      return Object.assign({}, state, {name: action.payload});
     case configObj.ON_MAIL_CHANGE_TYPE:
-      let payload = {mail: action.payload};
-      newState = {...state, ...payload};
-      //Object.assign(state, {mail: action.payload});
-      break;
-
+      return Object.assign({}, state, {mail: action.payload});
     case configObj.ON_PASS_CHANGE_TYPE:
-      Object.assign(state, {pass: action.payload});
-      break;
-
+      return Object.assign({}, state, {pass: action.payload});
     default:
-      break;
+      return state;
   }
-  return newState;
 }
 
 export default userInputCollectReducer;

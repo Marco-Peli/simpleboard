@@ -22,17 +22,13 @@ export const loginRequestReducer = (state=initialLoginState, action) => {
   switch(action.type)
   {
     case configObj.ON_USER_LOGIN_PENDING:
-      Object.assign(state, {loginPending: true});
-      break;
+      return Object.assign({}, state, {loginPending: true});
     case configObj.ON_USER_LOGIN_SUCCESS:
-      Object.assign(state, {loginPending: false, loginResponse: action.data});
       console.log('SERV_RESP: ', action.data);
-      break;
+      return Object.assign({}, state, {loginPending: false, loginResponse: action.data});
     case configObj.ON_USER_LOGIN_FAIL:
-      Object.assign(state, {loginPending: false, loginResponse: action.data});
-      break;
+      return Object.assign({}, state, {loginPending: false, loginResponse: action.data});
     default:
-      break;
+      return state;
   }
-  return state;
 }
