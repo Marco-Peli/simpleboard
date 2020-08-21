@@ -4,7 +4,8 @@ import {evaluateUserData, loginRequestReducer} from './signInUpReducers'
 
 const allReducers = combineReducers({
   userInputCollectReducer,
-  loginRequestReducer
+  loginRequestReducer,
+  evaluateUserData
 })
 
 export default allReducers;

@@ -39,7 +39,6 @@ export const onUserLoginFail = (data) =>
 
 export const sendLoginUserData = (dispatch, loginData) =>
 {
-  console.log('LOGIN_DATA: ', loginData);
   return function(dispatch)
   {
     dispatch(onUserLoginPending());
@@ -52,7 +51,6 @@ export const sendLoginUserData = (dispatch, loginData) =>
     })
     .then(response =>
       {
-        console.log('SERV_RESP: ', response);
         return response.json();
       })
     .then(data => {
