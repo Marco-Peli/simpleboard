@@ -7,16 +7,17 @@ const initialLoginState = {
 };
 
 const initialEvalState = {
-  userAction: 'login'
+  userAction: configObj.ON_USER_LOGIN_TYPE
 };
 
 export const evaluateUserData = (state=initialEvalState, action) => {
+
   switch(action.type)
   {
     case configObj.ON_USER_REGISTER_TYPE:
-      return Object.assign({}, state, {userAction: 'register'});
+      return Object.assign({}, state, {userAction: action.type});
     case configObj.ON_USER_LOGIN_TYPE:
-      return Object.assign({}, state, {userAction: 'login'});
+      return Object.assign({}, state, {userAction: action.type});
     default:
       return state;
   }
