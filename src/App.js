@@ -1,9 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import NavbarPage from './components/navbar'
-import FooterPage from './components/footer'
 import RegisterForm from './components/register'
+import DrawArea from './components/draw_area'
 
 class App extends React.Component  {
 
@@ -15,7 +14,7 @@ class App extends React.Component  {
 	{
     return (
       <>
-        <RegisterForm/>
+        <DrawArea/>
       </>
     );
   }
