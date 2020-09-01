@@ -1,12 +1,19 @@
 import configObj from '../constants';
+import socketIOClient from "socket.io-client";
+
+const ENDPOINT = "http://127.0.0.1:3002";
 
 const initialDrawAreaState = {
   isDrawing: false,
   drawBuffer: []
 };
 
-export const drawAreaReducer = (state=initialDrawAreaState, action) => {
+const initDrawAreaVars = {
+  socket: {},
+  isInit: false
+}
 
+export const drawAreaReducer = (state=initialDrawAreaState, action) => {
   switch(action.type)
   {
     case configObj.ON_DRAW_AREA_MOUSE_DOWN:
@@ -15,10 +22,22 @@ export const drawAreaReducer = (state=initialDrawAreaState, action) => {
       draw(action.payload.e, action.payload.ctx, action.payload.color);
       return Object.assign({}, state, {isDrawing: true});
     case configObj.ON_DRAW_AREA_MOUSE_UP:
+      sendData(action.payload.socket, action.payload.buffer);
+      state.drawBuffer.length = 0;
       return Object.assign({}, state, {isDrawing: false});
     case configObj.ON_DRAW_AREA_MOUSE_MOVE:
       draw(action.payload.e, action.payload.ctx, action.payload.color);
       return Object.assign({}, state, state.drawBuffer.push({x: action.payload.e.clientX, y: action.payload.e.clientY}));
+    default:
+      return state;
+  }
+}
+
+export const initDrawReducer = (state=initDrawAreaVars, action) => {
+  switch(action.type)
+  {
+    case configObj.ON_DRAW_AREA_INIT:
+      return Object.assign({}, state, {socket: socketIOClient(ENDPOINT), isInit: true});
     default:
       return state;
   }

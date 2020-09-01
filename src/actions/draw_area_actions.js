@@ -8,10 +8,11 @@ export const onDrawMouseDown = (color, e, ctx) =>
   }
 }
 
-export const onDrawMouseUp = () =>
+export const onDrawMouseUp = (socket, buffer, ctx) =>
 {
   return {
-    type: configObj.ON_DRAW_AREA_MOUSE_UP
+    type: configObj.ON_DRAW_AREA_MOUSE_UP,
+    payload: {socket, buffer, ctx}
   }
 }
 
@@ -23,10 +24,9 @@ export const onDrawMouseMove = (color, e, ctx) =>
   }
 }
 
-export const onInitDrawArea = (socket, canvas, ctx) =>
+export const onInitDrawArea = () =>
 {
   return {
-    type: configObj.ON_DRAW_AREA_MOUSE_MOVE,
-    payload: {socket, canvas, ctx}
+    type: configObj.ON_DRAW_AREA_INIT
   }
 }

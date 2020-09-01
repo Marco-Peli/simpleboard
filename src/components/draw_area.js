@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import socketIOClient from "socket.io-client";
 import {useDispatch, useSelector, connect} from 'react-redux'
 import {onDrawMouseDown, onDrawMouseUp, onDrawMouseMove, onInitDrawArea} from '../actions/draw_area_actions'
 
 const ENDPOINT = "http://127.0.0.1:3002";
-let socket = {};
 
 let inMemCanvas = document.createElement('canvas');
 let inMemCtx = inMemCanvas.getContext('2d');
@@ -21,14 +19,18 @@ const DrawArea = (props) => {
   useEffect(() => {
     canvas = canvasRef.current;
     ctx = canvas.getContext('2d');
-    socket = socketIOClient(ENDPOINT);
+
+    if(!props.isInit)
+    {
+      dispatch(onInitDrawArea());
+    }
   });
 
   return (
     <canvas
       ref={canvasRef}
       onMouseDown={(e) => dispatch(onDrawMouseDown(props.color, e, ctx))}
-      onMouseUp={() => dispatch(onDrawMouseUp(socket, props.buffer, ctx))}
+      onMouseUp={() => dispatch(onDrawMouseUp(props.socket, props.buffer, ctx))}
       onMouseMove={(e) => {if(props.isDrawing) dispatch(onDrawMouseMove(props.color, e, ctx))}}
       width={window.innerWidth}
       height={window.innerHeight}
@@ -51,7 +53,7 @@ function addCanvasListeners(canvas, ctx, color)
   });
 }
 
-function sendData()
+function sendData(socket)
 {
   socket.emit('drawBuf', JSON.stringify(buffer));
 }
@@ -81,7 +83,9 @@ function mapPropsToState(state)
   return({
     color: state.handleDrawMenuReducer.color,
     isDrawing: state.drawAreaReducer.isDrawing,
-    buffer: state.drawAreaReducer.drawBuffer
+    buffer: state.drawAreaReducer.drawBuffer,
+    isInit: state.initDrawReducer.isInit,
+    socket: state.initDrawReducer.socket
   });
 }
 
