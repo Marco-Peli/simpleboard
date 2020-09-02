@@ -1,6 +1,6 @@
 import React from "react";
 import {onColorChange} from '../actions/menu_actions'
-import {useDispatch, connect, useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import '../style/draw_menu.css';
 
 const DrawMenu = () => {
@@ -11,7 +11,7 @@ const DrawMenu = () => {
   return (
     <div id="mydiv">
       <div id="mydivheader">Menu</div>
-        <p><input type="color" onInput={(e) =>dispatch(onColorChange(e))} value={color}/></p>
+        <p><input type="color" onInput={(e) =>dispatch(onColorChange(e))} defaultValue={color}/></p>
     </div>
   );
 }

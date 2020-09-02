@@ -1,27 +1,35 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {useDispatch, useSelector, connect} from 'react-redux'
+import React, { useEffect, useRef } from 'react';
+import {useDispatch, connect} from 'react-redux'
 import {onDrawMouseDown, onDrawMouseUp, onDrawMouseMove, onInitDrawArea} from '../actions/draw_area_actions'
+let ctx = {};
+let canvas = {};
+let inMemCanvas = document.createElement('canvas');
+let inMemCtx = inMemCanvas.getContext('2d');
 
 const DrawArea = (props) => {
 
   const canvasRef = useRef(null);
   const dispatch = useDispatch();
-  let canvas = {};
-  let ctx = {};
 
   useEffect(() => {
-    canvas = canvasRef.current;
-    ctx = canvas.getContext('2d');
-
     if(!props.isInit)
     {
+      canvas = canvasRef.current;
+      ctx = canvas.getContext('2d');
+      window.addEventListener('resize', () => {
+        inMemCanvas.width = canvas.width;
+        inMemCanvas.height = canvas.height;
+        inMemCtx.drawImage(canvas, 0, 0);
+        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth;
+        ctx.drawImage(inMemCanvas, 0, 0);
+      });
       dispatch(onInitDrawArea());
     }
     else {
       props.socket.on('drawBuf', function(msg){
         console.log('received buffer from server: ', msg);
-        let tempBuf = JSON.parse(msg);
-        drawFromServer(tempBuf, ctx, props.color);
+        drawFromServer(JSON.parse(msg), ctx, props.color);
       });
     }
   });

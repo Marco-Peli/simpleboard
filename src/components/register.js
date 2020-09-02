@@ -1,6 +1,6 @@
 import React from "react";
 import configObj from '../constants';
-import {useDispatch, useSelector, connect} from 'react-redux'
+import {useDispatch, connect} from 'react-redux'
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput } from 'mdbreact';
 import {onInputNameChange, onInputMailChange, onInputPassChange} from '../actions/textInputActions'
 import {sendLoginUserData, onUserLogin, onUserRegister} from '../actions/signInUp'
