@@ -2,13 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import {useDispatch, useSelector, connect} from 'react-redux'
 import {onDrawMouseDown, onDrawMouseUp, onDrawMouseMove, onInitDrawArea} from '../actions/draw_area_actions'
 
-const ENDPOINT = "http://127.0.0.1:3002";
-
-let inMemCanvas = document.createElement('canvas');
-let inMemCtx = inMemCanvas.getContext('2d');
-let isDrawing = false;
-let buffer = [];
-
 const DrawArea = (props) => {
 
   const canvasRef = useRef(null);
@@ -23,6 +16,13 @@ const DrawArea = (props) => {
     if(!props.isInit)
     {
       dispatch(onInitDrawArea());
+    }
+    else {
+      props.socket.on('drawBuf', function(msg){
+        console.log('received buffer from server: ', msg);
+        let tempBuf = JSON.parse(msg);
+        drawFromServer(tempBuf, ctx, props.color);
+      });
     }
   });
 
@@ -39,32 +39,13 @@ const DrawArea = (props) => {
 
 }
 
-function addCanvasListeners(canvas, ctx, color)
-{
-  canvas.addEventListener('mouseup', e => {
-    console.log('MOUSEEVENT: ', e);
-    isDrawing = false;
-    if(buffer.length>=2)
-    {
-      sendData();
-    }
-    buffer.length = 0;
-    ctx.beginPath();
-  });
-}
-
-function sendData(socket)
-{
-  socket.emit('drawBuf', JSON.stringify(buffer));
-}
-
 function drawFromServer(drawBuf, ctx, color)
 {
-  let colorData = drawBuf[0];
+  let metadata = drawBuf[0];
+  ctx.beginPath();
   ctx.lineWidth = 10;
   ctx.lineCap = 'round';
-  ctx.strokeStyle = color;
-  ctx.beginPath();
+  ctx.strokeStyle = metadata.color;
   ctx.moveTo(drawBuf[1].x, drawBuf[1].y);
   let drawPosBuf = drawBuf.slice(1, drawBuf.length);
   drawPosBuf.forEach((item) => {
@@ -75,7 +56,7 @@ function drawFromServer(drawBuf, ctx, color)
   });
   ctx.beginPath();
   ctx.strokeStyle = color;
-  console.log(drawBuf);
+
 }
 
 function mapPropsToState(state)

@@ -24,6 +24,7 @@ export const drawAreaReducer = (state=initialDrawAreaState, action) => {
     case configObj.ON_DRAW_AREA_MOUSE_UP:
       sendData(action.payload.socket, action.payload.buffer);
       state.drawBuffer.length = 0;
+      action.payload.ctx.beginPath();
       return Object.assign({}, state, {isDrawing: false});
     case configObj.ON_DRAW_AREA_MOUSE_MOVE:
       draw(action.payload.e, action.payload.ctx, action.payload.color);

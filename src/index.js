@@ -19,7 +19,7 @@ const composeEnhancers = composeWithDevTools({
 
 let store = createStore(
   allReducers,
-  composeEnhancers(applyMiddleware(thunkMiddleware, logger))
+  composeEnhancers(applyMiddleware(thunkMiddleware))
 );
 
 ReactDOM.render(
