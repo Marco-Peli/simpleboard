@@ -14,12 +14,14 @@ const initDrawAreaVars = {
 }
 
 export const drawAreaReducer = (state=initialDrawAreaState, action) => {
+  let mousePosRelativeToCanvas = {};
   switch(action.type)
   {
     case configObj.ON_DRAW_AREA_MOUSE_DOWN:
+      mousePosRelativeToCanvas = getMousePos(action.payload.canvas, action.payload.e);
       state.drawBuffer.push({color: action.payload.color});
-      state.drawBuffer.push({x: action.payload.e.clientX, y: action.payload.e.clientY});
-      draw(action.payload.e, action.payload.ctx, action.payload.color);
+      state.drawBuffer.push({x: mousePosRelativeToCanvas.x, y: mousePosRelativeToCanvas.y});
+      draw(action.payload.ctx, action.payload.color, mousePosRelativeToCanvas);
       return Object.assign({}, state, {isDrawing: true});
     case configObj.ON_DRAW_AREA_MOUSE_UP:
       sendData(action.payload.socket, action.payload.buffer);
@@ -27,8 +29,9 @@ export const drawAreaReducer = (state=initialDrawAreaState, action) => {
       action.payload.ctx.beginPath();
       return Object.assign({}, state, {isDrawing: false});
     case configObj.ON_DRAW_AREA_MOUSE_MOVE:
-      draw(action.payload.e, action.payload.ctx, action.payload.color);
-      return Object.assign({}, state, state.drawBuffer.push({x: action.payload.e.clientX, y: action.payload.e.clientY}));
+      mousePosRelativeToCanvas = getMousePos(action.payload.canvas, action.payload.e);
+      draw(action.payload.ctx, action.payload.color, mousePosRelativeToCanvas);
+      return Object.assign({}, state, state.drawBuffer.push({x: mousePosRelativeToCanvas.x, y: mousePosRelativeToCanvas.y}));
     case configObj.ON_CANVAS_RESIZE:
       action.payload.inMemCanvas.width = action.payload.canvas.width;
       action.payload.inMemCanvas.height = action.payload.canvas.height;
@@ -52,14 +55,22 @@ export const initDrawReducer = (state=initDrawAreaVars, action) => {
   }
 }
 
-function draw(e, ctx, color) {
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top
+    };
+}
+
+function draw(ctx, color, mousePos) {
     ctx.lineWidth = 10;
     ctx.lineCap = 'round';
     ctx.strokeStyle = color;
-    ctx.lineTo(e.clientX, e.clientY);
+    ctx.lineTo(mousePos.x, mousePos.y);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(e.clientX, e.clientY);
+    ctx.moveTo(mousePos.x, mousePos.y);
 }
 
 function sendData(socket, buffer)

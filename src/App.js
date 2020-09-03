@@ -1,4 +1,5 @@
 import React from 'react';
+import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import logo from './logo.svg';
 import './App.css';
 import RegisterForm from './components/register'
@@ -9,8 +10,13 @@ const App = () => {
 
     return (
       <>
+      <MDBContainer fluid>
         <DrawMenu/>
-        <DrawArea/>
+        <MDBRow>
+          <MDBCol lg="2">.col-lg-4</MDBCol>
+          <DrawArea/>
+        </MDBRow>
+      </MDBContainer>
       </>
     );
 }

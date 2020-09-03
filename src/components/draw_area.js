@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import {useDispatch, connect} from 'react-redux'
 import {onDrawMouseDown, onDrawMouseUp, onDrawMouseMove, onInitDrawArea, onCanvasResize} from '../actions/draw_area_actions'
+import '../style/draw_area.css';
+
 let ctx = {};
 let canvas = {};
 let inMemCanvas = document.createElement('canvas');
@@ -29,11 +31,12 @@ const DrawArea = (props) => {
   return (
     <canvas
       ref={canvasRef}
-      onMouseDown={(e) => {if(!props.isMouseOverDrawMenu) {e.persist(); dispatch(onDrawMouseDown(props.color, e, ctx))}}}
+      onMouseDown={(e) => {if(!props.isMouseOverDrawMenu) {e.persist(); dispatch(onDrawMouseDown(props.color, e, ctx, canvas))}}}
       onMouseUp={() => {if(props.isDrawing) dispatch(onDrawMouseUp(props.socket, props.buffer, ctx))} }
-      onMouseMove={(e) => { e.persist(); if(props.isDrawing) dispatch(onDrawMouseMove(props.color, e, ctx)) }}
-      width={window.innerWidth}
-      height={window.innerHeight}
+      onMouseMove={(e) => { e.persist(); if(props.isDrawing) dispatch(onDrawMouseMove(props.color, e, ctx, canvas)) }}
+      onMouseLeave={() => {if(props.isDrawing) dispatch(onDrawMouseUp(props.socket, props.buffer, ctx))}}
+      width={500}
+      height={500}
     />
   );
 
