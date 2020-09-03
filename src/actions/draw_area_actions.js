@@ -24,6 +24,14 @@ export const onDrawMouseMove = (color, e, ctx) =>
   }
 }
 
+export const onCanvasResize = (canvas, inMemCanvas, ctx, inMemCtx) =>
+{
+  return {
+    type: configObj.ON_CANVAS_RESIZE,
+    payload: {canvas, inMemCanvas, ctx, inMemCtx}
+  }
+}
+
 export const onInitDrawArea = () =>
 {
   return {

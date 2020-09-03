@@ -29,6 +29,14 @@ export const drawAreaReducer = (state=initialDrawAreaState, action) => {
     case configObj.ON_DRAW_AREA_MOUSE_MOVE:
       draw(action.payload.e, action.payload.ctx, action.payload.color);
       return Object.assign({}, state, state.drawBuffer.push({x: action.payload.e.clientX, y: action.payload.e.clientY}));
+    case configObj.ON_CANVAS_RESIZE:
+      action.payload.inMemCanvas.width = action.payload.canvas.width;
+      action.payload.inMemCanvas.height = action.payload.canvas.height;
+      action.payload.inMemCtx.drawImage(action.payload.canvas, 0, 0);
+      action.payload.canvas.height = window.innerHeight;
+      action.payload.canvas.width = window.innerWidth;
+      action.payload.ctx.drawImage(action.payload.inMemCanvas, 0, 0);
+      return state;
     default:
       return state;
   }

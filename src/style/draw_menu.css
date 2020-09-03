@@ -1,16 +1,30 @@
 #mydiv {
   position: absolute;
   z-index: 9;
-  background-color: #f1f1f1;
-  border: 1px solid #d3d3d3;
   text-align: center;
   z-index: 10;
 }
 
 #mydivheader {
-  padding: 10px;
-  cursor: move;
+  padding: 5px;
   z-index: 10;
   background-color: #2196F3;
   color: #fff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.draggable {
+  cursor: move;
+}
+
+#mydiv:hover .open-item{
+  display: block;
+}
+
+.open-item{
+  display: none;
+  border-left: solid;
+  border-right: solid;
+  border-width: thin;
 }

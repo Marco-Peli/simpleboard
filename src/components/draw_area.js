@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import {useDispatch, connect} from 'react-redux'
-import {onDrawMouseDown, onDrawMouseUp, onDrawMouseMove, onInitDrawArea} from '../actions/draw_area_actions'
+import {onDrawMouseDown, onDrawMouseUp, onDrawMouseMove, onInitDrawArea, onCanvasResize} from '../actions/draw_area_actions'
 let ctx = {};
 let canvas = {};
 let inMemCanvas = document.createElement('canvas');
@@ -16,14 +16,6 @@ const DrawArea = (props) => {
     {
       canvas = canvasRef.current;
       ctx = canvas.getContext('2d');
-      window.addEventListener('resize', () => {
-        inMemCanvas.width = canvas.width;
-        inMemCanvas.height = canvas.height;
-        inMemCtx.drawImage(canvas, 0, 0);
-        canvas.height = window.innerHeight;
-        canvas.width = window.innerWidth;
-        ctx.drawImage(inMemCanvas, 0, 0);
-      });
       dispatch(onInitDrawArea());
     }
     else {
@@ -37,9 +29,9 @@ const DrawArea = (props) => {
   return (
     <canvas
       ref={canvasRef}
-      onMouseDown={(e) => dispatch(onDrawMouseDown(props.color, e, ctx))}
-      onMouseUp={() => dispatch(onDrawMouseUp(props.socket, props.buffer, ctx))}
-      onMouseMove={(e) => {if(props.isDrawing) dispatch(onDrawMouseMove(props.color, e, ctx))}}
+      onMouseDown={(e) => {if(!props.isMouseOverDrawMenu) {e.persist(); dispatch(onDrawMouseDown(props.color, e, ctx))}}}
+      onMouseUp={() => {if(props.isDrawing) dispatch(onDrawMouseUp(props.socket, props.buffer, ctx))} }
+      onMouseMove={(e) => { e.persist(); if(props.isDrawing) dispatch(onDrawMouseMove(props.color, e, ctx)) }}
       width={window.innerWidth}
       height={window.innerHeight}
     />
@@ -74,7 +66,8 @@ function mapPropsToState(state)
     isDrawing: state.drawAreaReducer.isDrawing,
     buffer: state.drawAreaReducer.drawBuffer,
     isInit: state.initDrawReducer.isInit,
-    socket: state.initDrawReducer.socket
+    socket: state.initDrawReducer.socket,
+    isMouseOverDrawMenu: state.handleDrawMenuReducer.isMouseOverDrawMenu
   });
 }
 
