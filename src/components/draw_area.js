@@ -2,17 +2,18 @@ import React, { useEffect, useRef } from 'react';
 import {useDispatch, connect} from 'react-redux'
 import {onDrawMouseDown, onDrawMouseUp, onDrawMouseMove, onInitDrawArea, onCanvasResize} from '../actions/draw_area_actions'
 import '../style/draw_area.css';
+import CanvasHandler from './drawing_handlers/canvas_handler';
 
 let ctx = {};
 let canvas = {};
 let inMemCanvas = document.createElement('canvas');
 let inMemCtx = inMemCanvas.getContext('2d');
+let canvasHandler = new CanvasHandler(canvas, ctx);
 
 const DrawArea = (props) => {
 
   const canvasRef = useRef(null);
   const dispatch = useDispatch();
-
   useEffect(() => {
     if(!props.isInit)
     {
