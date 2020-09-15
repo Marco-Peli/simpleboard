@@ -4,16 +4,24 @@ class CanvasHandler{
     this.canvas = canvas;
     this.ctx = ctx;
     this.objListeners = [];
+    this.objectsInCanvas = [];
   }
 
-  addObjectListener()
+  addObject(obj)
   {
-
+    this.objectsInCanvas.push(obj);
   }
 
   handleListeners()
   {
 
+  }
+
+  drawScene()
+  {
+    this.objectsInCanvas.forEach(obj => {
+      obj.draw()
+    });
   }
 
   getMousePos(evt) {

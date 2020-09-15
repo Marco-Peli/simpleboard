@@ -9,8 +9,8 @@ import '../style/draw_menu.css';
 const DrawMenu = () => {
 
   const dispatch = useDispatch();
-  const color = useSelector(state => state.handleDrawMenuReducer.color);
-  const isMenuLock = useSelector(state => state.handleDrawMenuReducer.isMenuLock);
+  const color = useSelector(state => state.drawMenuReducer.color);
+  const isMenuLock = useSelector(state => state.drawMenuReducer.isMenuLock);
   let topMenuHeaderClass = '';
 
   function setTopMenuHeaderClass(isMenuLock){

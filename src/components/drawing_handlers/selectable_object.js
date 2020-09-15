@@ -7,6 +7,16 @@ class SelectableObject extends DrawableObject{
     this.isSelected = false;
   }
 
+  selectObject()
+  {
+    this.isSelected = true;
+  }
+
+  deselectObject()
+  {
+    this.isSelected = false;
+  }
+
 }
 
 export default SelectableObject;

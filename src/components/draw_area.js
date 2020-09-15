@@ -9,6 +9,7 @@ let ctx = {};
 let canvas = {};
 let inMemCanvas = document.createElement('canvas');
 let inMemCtx = inMemCanvas.getContext('2d');
+let canvasHandler = {};
 
 const DrawArea = (props) => {
 
@@ -22,7 +23,9 @@ const DrawArea = (props) => {
       dispatch(onInitDrawArea());
     }
     else {
-      new Circle(100, 100, canvas, ctx, 40, '#808080').draw();
+      canvasHandler = new CanvasHandler(canvas, ctx);
+      canvasHandler.addObject(new Circle(100, 100, canvas, ctx, 40, '#808080'));
+      requestAnimationFrame(drawSceneFrame);
       props.socket.on('drawBuf', function(msg){
         console.log('received buffer from server: ', msg);
         drawFromServer(JSON.parse(msg), ctx, props.color);
@@ -42,6 +45,12 @@ const DrawArea = (props) => {
     />
   );
 
+}
+
+function drawSceneFrame()
+{
+  console.log("frame draw");
+  canvasHandler.drawScene();
 }
 
 function drawFromServer(drawBuf, ctx, color)
@@ -67,12 +76,12 @@ function drawFromServer(drawBuf, ctx, color)
 function mapPropsToState(state)
 {
   return({
-    color: state.handleDrawMenuReducer.color,
+    color: state.drawMenuReducer.color,
     isDrawing: state.drawAreaReducer.isDrawing,
     buffer: state.drawAreaReducer.drawBuffer,
     isInit: state.initDrawReducer.isInit,
     socket: state.initDrawReducer.socket,
-    isMouseOverDrawMenu: state.handleDrawMenuReducer.isMouseOverDrawMenu
+    isMouseOverDrawMenu: state.drawMenuReducer.isMouseOverDrawMenu
   });
 }
 

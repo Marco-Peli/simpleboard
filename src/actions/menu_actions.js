@@ -29,6 +29,20 @@ export const onMouseEnterMenu = () =>
   }
 }
 
+export const onDrawMenuPencilToolSelect = () =>
+{
+  return {
+    type: configObj.ON_MOUSE_DRAW_MENU_PENCIL_TOOL_SELECT
+  }
+}
+
+export const onDrawMenuSelectToolSelect = () =>
+{
+  return {
+    type: configObj.ON_MOUSE_DRAW_MENU_SELECT_TOOL_SELECT
+  }
+}
+
 export const onMouseLeaveMenu = () =>
 {
   return {
