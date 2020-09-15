@@ -3,12 +3,12 @@ import {useDispatch, connect} from 'react-redux'
 import {onDrawMouseDown, onDrawMouseUp, onDrawMouseMove, onInitDrawArea, onCanvasResize} from '../actions/draw_area_actions'
 import '../style/draw_area.css';
 import CanvasHandler from './drawing_handlers/canvas_handler';
+import Circle from './drawing_handlers/circle'
 
 let ctx = {};
 let canvas = {};
 let inMemCanvas = document.createElement('canvas');
 let inMemCtx = inMemCanvas.getContext('2d');
-let canvasHandler = new CanvasHandler(canvas, ctx);
 
 const DrawArea = (props) => {
 
@@ -22,6 +22,7 @@ const DrawArea = (props) => {
       dispatch(onInitDrawArea());
     }
     else {
+      new Circle(100, 100, canvas, ctx, 40, '#808080').draw();
       props.socket.on('drawBuf', function(msg){
         console.log('received buffer from server: ', msg);
         drawFromServer(JSON.parse(msg), ctx, props.color);

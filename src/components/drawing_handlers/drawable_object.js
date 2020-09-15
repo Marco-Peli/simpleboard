@@ -1,10 +1,13 @@
 class DrawableObject{
-  constructor(posX, posY)
+  constructor(posX, posY, canvas, ctx, color)
   {
     this.pos = {
       x: posX,
       y: posY
     };
+    this.color = color;
+    this.canvas = canvas;
+    this.ctx = ctx;
   }
 
   draw() {
