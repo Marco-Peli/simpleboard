@@ -36,7 +36,7 @@ const DrawArea = (props) => {
   return (
     <canvas
       ref={canvasRef}
-      onMouseDown={(e) => {if(!props.isMouseOverDrawMenu) {e.persist(); dispatch(onDrawMouseDown(props.color, e, ctx, canvas))}}}
+      onMouseDown={(e) => {e.persist(); dispatch(onDrawMouseDown(props.color, e, ctx, canvas, canvasHandler));} }
       onMouseUp={() => {if(props.isDrawing) dispatch(onDrawMouseUp(props.socket, props.buffer, ctx))} }
       onMouseMove={(e) => { e.persist(); if(props.isDrawing) dispatch(onDrawMouseMove(props.color, e, ctx, canvas)) }}
       onMouseLeave={() => {if(props.isDrawing) dispatch(onDrawMouseUp(props.socket, props.buffer, ctx))}}

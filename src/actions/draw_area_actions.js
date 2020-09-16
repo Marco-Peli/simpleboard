@@ -1,10 +1,10 @@
 import configObj from '../constants';
 
-export const onDrawMouseDown = (color, e, ctx, canvas) =>
+export const onDrawMouseDown = (color, e, ctx, canvas, canvasHandler) =>
 {
   return {
     type: configObj.ON_DRAW_AREA_MOUSE_DOWN,
-    payload: {color, e, ctx, canvas}
+    payload: {color, e, ctx, canvas, canvasHandler}
   }
 }
 

@@ -1,3 +1,4 @@
+
 class CanvasHandler{
   constructor(canvas, ctx)
   {
@@ -12,24 +13,25 @@ class CanvasHandler{
     this.objectsInCanvas.push(obj);
   }
 
-  handleListeners()
+  handleListeners(listenerName, evt)
   {
-
+    this.objectsInCanvas.forEach(drawObj => {
+      let itemListeners = drawObj.getListeners;
+      itemListeners.forEach(listener => {
+        if(listener.getName === listenerName)
+        {
+          console.log("LISTENER " + listenerName + " CALLED")
+          listener.executeAction();
+        }
+      });
+    });
   }
 
   drawScene()
   {
     this.objectsInCanvas.forEach(obj => {
-      obj.draw()
+      obj.draw();
     });
-  }
-
-  getMousePos(evt) {
-      var rect = this.canvas.getBoundingClientRect();
-      return {
-        x: evt.clientX - rect.left,
-        y: evt.clientY - rect.top
-      };
   }
 
 }

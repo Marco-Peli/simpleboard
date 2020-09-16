@@ -18,10 +18,12 @@ export const drawAreaReducer = (state=initialDrawAreaState, action) => {
   switch(action.type)
   {
     case configObj.ON_DRAW_AREA_MOUSE_DOWN:
-      mousePosRelativeToCanvas = getMousePos(action.payload.canvas, action.payload.e);
+      /*mousePosRelativeToCanvas = getMousePos(action.payload.canvas, action.payload.e);
       state.drawBuffer.push({color: action.payload.color});
       state.drawBuffer.push({x: mousePosRelativeToCanvas.x, y: mousePosRelativeToCanvas.y});
-      draw(action.payload.ctx, action.payload.color, mousePosRelativeToCanvas);
+      draw(action.payload.ctx, action.payload.color, mousePosRelativeToCanvas);*/
+      action.payload.canvasHandler.handleListeners('mousedown');
+      action.payload.canvasHandler.drawScene();
       return Object.assign({}, state, {isDrawing: true});
     case configObj.ON_DRAW_AREA_MOUSE_UP:
       sendData(action.payload.socket, action.payload.buffer);
@@ -32,14 +34,6 @@ export const drawAreaReducer = (state=initialDrawAreaState, action) => {
       mousePosRelativeToCanvas = getMousePos(action.payload.canvas, action.payload.e);
       draw(action.payload.ctx, action.payload.color, mousePosRelativeToCanvas);
       return Object.assign({}, state, state.drawBuffer.push({x: mousePosRelativeToCanvas.x, y: mousePosRelativeToCanvas.y}));
-    case configObj.ON_CANVAS_RESIZE:
-      action.payload.inMemCanvas.width = action.payload.canvas.width;
-      action.payload.inMemCanvas.height = action.payload.canvas.height;
-      action.payload.inMemCtx.drawImage(action.payload.canvas, 0, 0);
-      action.payload.canvas.height = window.innerHeight;
-      action.payload.canvas.width = window.innerWidth;
-      action.payload.ctx.drawImage(action.payload.inMemCanvas, 0, 0);
-      return state;
     default:
       return state;
   }
