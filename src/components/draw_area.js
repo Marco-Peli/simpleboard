@@ -21,11 +21,13 @@ const DrawArea = (props) => {
       canvas = canvasRef.current;
       ctx = canvas.getContext('2d');
       dispatch(onInitDrawArea());
+      canvasHandler = new CanvasHandler(canvas, ctx);
+      let circle = new Circle(100, 100, canvas, ctx, 40, '#808080');
+      canvasHandler.addObject(circle);
     }
     else {
-      canvasHandler = new CanvasHandler(canvas, ctx);
-      canvasHandler.addObject(new Circle(100, 100, canvas, ctx, 40, '#808080'));
       requestAnimationFrame(drawSceneFrame);
+      canvasHandler.drawScene();
       props.socket.on('drawBuf', function(msg){
         console.log('received buffer from server: ', msg);
         drawFromServer(JSON.parse(msg), ctx, props.color);

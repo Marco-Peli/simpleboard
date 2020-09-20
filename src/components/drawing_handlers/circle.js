@@ -6,13 +6,15 @@ class Circle extends SelectableObject{
   constructor(posX, posY, canvas, ctx, radius, color)
   {
     super(posX, posY, canvas, ctx, color);
-    this.addlistener(new CanvasListener('mousedown', this.isMouseInsideObject));
     this.radius = radius;
+    this.addlistener(new CanvasListener('mousedown', (evt) => this.isMouseInsideObject(evt)));
+    console.log("circle constructor", this.isSelected);
   }
 
   draw()
   {
     console.log("circle draw");
+    
     if(this.isSelected)
     {
       this.ctx.beginPath();
@@ -28,21 +30,28 @@ class Circle extends SelectableObject{
     this.ctx.beginPath();
   }
 
-  isMouseInsideObject()
+  isMouseInsideObject(evt)
   {
-    /*let mousePos = this.getMousePos(evt);
+    let mousePos = this.getMousePos(evt);
 
-    if(mousePos.x<this.pos.x+this.radius && mousePos.x>this.pos.x-this.radius)
+    console.log('mousePos', mousePos);
+
+    if((mousePos.x<(this.pos.x+this.radius)) && (mousePos.x>(this.pos.x-this.radius)))
     {
-      this.isSelected = true;
+      this.selectObject();
     }
     else
     {
-      this.isSelected = false;
-    }*/
-    super.selectObject();
-    //this.isSelected = true;
-    console.log("circle listener called", this.isSelected);
+      this.deselectObject();
+    }
+
+    console.log("circle selected: ", this.isSelected);
+    this.printInfo();
+  }
+
+  printInfo(){
+    super.printInfo();
+    console.log('radius', this.radius);
   }
 
 }

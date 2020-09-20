@@ -22,8 +22,7 @@ export const drawAreaReducer = (state=initialDrawAreaState, action) => {
       state.drawBuffer.push({color: action.payload.color});
       state.drawBuffer.push({x: mousePosRelativeToCanvas.x, y: mousePosRelativeToCanvas.y});
       draw(action.payload.ctx, action.payload.color, mousePosRelativeToCanvas);*/
-      action.payload.canvasHandler.handleListeners('mousedown');
-      action.payload.canvasHandler.drawScene();
+      action.payload.canvasHandler.handleListeners('mousedown', action.payload.e);
       return Object.assign({}, state, {isDrawing: true});
     case configObj.ON_DRAW_AREA_MOUSE_UP:
       sendData(action.payload.socket, action.payload.buffer);

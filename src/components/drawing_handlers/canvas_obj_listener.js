@@ -4,10 +4,9 @@ class CanvasListener {
     this.action = action;
   }
 
-  executeAction()
+  executeAction(evt)
   {
-    
-    this.action();
+    this.action(evt);
   }
 
   get getName()
