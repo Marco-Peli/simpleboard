@@ -16,11 +16,11 @@ export const onDrawMouseUp = (socket, buffer, ctx) =>
   }
 }
 
-export const onDrawMouseMove = (color, e, ctx, canvas) =>
+export const onDrawMouseMove = (color, e, ctx, canvas, canvasHandler) =>
 {
   return {
     type: configObj.ON_DRAW_AREA_MOUSE_MOVE,
-    payload: {color, e, ctx, canvas}
+    payload: {color, e, ctx, canvas, canvasHandler}
   }
 }
 

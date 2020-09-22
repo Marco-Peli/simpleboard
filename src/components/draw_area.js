@@ -26,7 +26,6 @@ const DrawArea = (props) => {
       canvasHandler.addObject(circle);
     }
     else {
-      requestAnimationFrame(drawSceneFrame);
       canvasHandler.drawScene();
       props.socket.on('drawBuf', function(msg){
         console.log('received buffer from server: ', msg);
@@ -40,7 +39,7 @@ const DrawArea = (props) => {
       ref={canvasRef}
       onMouseDown={(e) => {e.persist(); dispatch(onDrawMouseDown(props.color, e, ctx, canvas, canvasHandler));} }
       onMouseUp={() => {if(props.isDrawing) dispatch(onDrawMouseUp(props.socket, props.buffer, ctx))} }
-      onMouseMove={(e) => { e.persist(); if(props.isDrawing) dispatch(onDrawMouseMove(props.color, e, ctx, canvas)) }}
+      onMouseMove={(e) => { e.persist(); dispatch(onDrawMouseMove(props.color, e, ctx, canvas, canvasHandler)) }}
       onMouseLeave={() => {if(props.isDrawing) dispatch(onDrawMouseUp(props.socket, props.buffer, ctx))}}
       width={500}
       height={500}

@@ -1,20 +1,20 @@
-import SelectableObject from './selectable_object';
-import DrawableObject from './drawable_object';
+import DraggableObject from './draggable_object';
 import CanvasListener from './canvas_obj_listener';
 
-class Circle extends SelectableObject{
+class Circle extends DraggableObject{
   constructor(posX, posY, canvas, ctx, radius, color)
   {
     super(posX, posY, canvas, ctx, color);
     this.radius = radius;
     this.addlistener(new CanvasListener('mousedown', (evt) => this.isMouseInsideObject(evt)));
-    console.log("circle constructor", this.isSelected);
+    this.addlistener(new CanvasListener('mousemove', (evt) => this.moveObject(evt)));
+    this.addlistener(new CanvasListener('mouseup', (evt) => this.mouseUp(evt)));
   }
 
   draw()
   {
     console.log("circle draw");
-    
+
     if(this.isSelected)
     {
       this.ctx.beginPath();
@@ -34,19 +34,36 @@ class Circle extends SelectableObject{
   {
     let mousePos = this.getMousePos(evt);
 
-    console.log('mousePos', mousePos);
-
     if((mousePos.x<(this.pos.x+this.radius)) && (mousePos.x>(this.pos.x-this.radius)))
     {
       this.selectObject();
+      this.setDraggable();
+      this.setMouseDragRelativePos(mousePos);
     }
     else
     {
       this.deselectObject();
+      this.unsetDraggable();
     }
+  }
 
-    console.log("circle selected: ", this.isSelected);
-    this.printInfo();
+  moveObject(evt)
+  {
+    if(!this.isDraggable)
+    {
+      return;
+    }
+    let mousePos = this.getMousePos(evt);
+
+    if(this.isDraggable)
+    {
+      this.setNewPos(mousePos.x - this.mouseRelPos.x, mousePos.y - this.mouseRelPos.y);
+    }
+  }
+
+  mouseUp(evt)
+  {
+    this.unsetDraggable();
   }
 
   printInfo(){

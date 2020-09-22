@@ -1,8 +1,3 @@
-import SelectableObject from './selectable_object';
-import DrawableObject from './drawable_object';
-import CanvasListener from './canvas_obj_listener';
-import Circle from './circle';
-
 class CanvasHandler{
   constructor(canvas, ctx)
   {
@@ -24,7 +19,6 @@ class CanvasHandler{
       itemListeners.forEach(listener => {
         if(listener.name === listenerName)
         {
-          console.log("LISTENER " + listenerName + " CALLED")
           listener.executeAction(evt);
         }
       });
